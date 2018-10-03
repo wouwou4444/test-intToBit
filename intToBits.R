@@ -10,10 +10,19 @@ for (j in 1:(i-1)) {
   print(gsub(pattern = gexpr, replacement = " ",x = text_sample))
 }
 
-lapply(1:(i-1), function(j) {
+list_description_tokenizations <- sapply(1:(i-1), function(j) {
   print(j)
   gexpr <- paste("[",paste(separator[(intToBits(j) == 1)[1:3]], collapse = ""),"]",sep = "")
   print(gexpr)
   temp <- (gsub(pattern = gexpr, replacement = " ",x = text_sample)) 
-  print(strsplit(split = "[\t ]",x = temp))
+  return(strsplit(split = "[\t ]",x = temp))
 })
+
+# mapply(
+#   function(x){paste(collapse = " ",x)}, 
+#   list_description_tokenizations)
+
+# array_description_tokenizations <- as.array((list_description_tokenizations))
+
+list_tokens <- apply(list_description_tokenizations, 1, FUN = function (x) { unique(unlist(c(x)))})
+
